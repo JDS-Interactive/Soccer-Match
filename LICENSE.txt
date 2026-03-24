@@ -1,0 +1,140 @@
+Soccer Match Deck Community Attribution and Add-On License v1.0
+Copyright (c) 2026 Jared De Santis
+
+1. Purpose
+
+This License allows anyone to use, copy, share, and distribute the Software,
+and to create extensions, add-ons, overlays, wrappers, integrations, and other
+supplementary materials for it, subject to the conditions below.
+
+2. Definitions
+
+“Software” means the original Soccer Match Deck codebase published by the
+Licensor, including all files originally distributed in the repository unless
+the Licensor designates certain files as add-on/example files.
+
+“Core Code” means all original source files published by the Licensor as part
+of the Software, including any code contained within those files.
+
+“Add-On” means any new, separate code, asset, configuration, stylesheet,
+script, module, page, plugin, adapter, documentation, or other material added
+by You that is designed to work with the Software without replacing or altering
+the Core Code.
+
+“Branding” means any product name, logo, trademark, trade dress, splash text,
+repo name, author line, website footer, or other identifier used to present a
+fork, distribution, or derivative project to others.
+
+“Licensor” means Jared De Santis.
+
+“You” means any individual or entity exercising permissions under this License.
+
+3. Permissions Granted
+
+Subject to the conditions of this License, You may:
+
+a. use the Software for personal, educational, internal, or commercial purposes;
+b. copy and redistribute the Software in source or compiled form;
+c. share the Software publicly;
+d. create and distribute Add-Ons for the Software;
+e. create a branded distribution built on top of the Software, provided You
+   comply with Sections 4, 5, and 6.
+
+4. Attribution Requirement
+
+If You share, publish, host, distribute, sell services around, or otherwise
+make the Software or a branded distribution available to others, You must give
+clear attribution to the original project.
+
+At minimum, attribution must include:
+
+a. the name “Soccer Match Deck”;
+b. “Original core code by Jared De Santis”;
+c. a visible copy of this License in the distribution or repository;
+d. a note describing whether Your distribution includes Add-Ons or other changes.
+
+Attribution must appear in at least one of the following places:
+
+a. the repository README;
+b. an About, Credits, or Legal screen;
+c. source file headers where practical;
+d. accompanying documentation.
+
+5. Branding Conditions
+
+You may apply Your own branding to a distribution only if:
+
+a. You provide the attribution required by Section 4;
+b. You clearly state that Your version is based on Soccer Match Deck;
+c. You do not imply that Jared De Santis endorses, sponsors, certifies, or is
+   responsible for Your version unless You have written permission.
+
+6. Core Code Integrity
+
+You may not alter, replace, delete, edit, or redistribute modified versions of
+the Core Code files.
+
+This means, by way of example, that You may not:
+
+a. modify lines within original core source files and redistribute them;
+b. remove original notices from Core Code files;
+c. publish an edited version of the original Core Code as though it were the
+   same core project.
+
+You may, however:
+
+a. add new files alongside the Software;
+b. create Add-Ons that interface with the Software;
+c. create wrappers, loaders, themes, adapters, plugins, or companion modules;
+d. distribute patch notes or instructions describing changes You made for Your
+   own private use, so long as You do not redistribute modified Core Code files.
+
+For private internal use only, You may modify the Core Code, but You may not
+share, publish, or distribute those modified Core Code files to others.
+
+7. Add-Ons and New Files
+
+You retain ownership of Your Add-Ons, except that any distribution of Add-Ons
+that depends on the Software must:
+
+a. not remove or obscure the attribution required by this License;
+b. not claim ownership of the original Core Code;
+c. not be presented in a misleading way that suggests the Add-On is the entire
+   original project.
+
+You may license Your Add-Ons under terms of Your choice, provided those terms
+do not conflict with this License as applied to the Software and Core Code.
+
+8. No Trademark License
+
+This License does not grant any right to use the Licensor’s name, logo,
+trademarks, or project identity except as necessary for truthful attribution.
+
+9. Notices
+
+You must keep intact all copyright, attribution, and license notices included
+with the Software.
+
+10. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+11. Limitation of Liability
+
+IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
+OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+12. Termination
+
+Any rights granted under this License automatically terminate if You violate
+its terms. If You cure the violation and stop the non-compliant distribution,
+the Licensor may choose to reinstate Your rights.
+
+13. Acceptance
+
+By using, copying, modifying for private use, sharing, or distributing the
+Software, You agree to this License.

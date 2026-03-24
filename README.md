@@ -185,6 +185,18 @@ The final winner is determined by:
 
 ---
 
+## License
+
+This project is licensed under the **Soccer Match Deck Community Attribution and Add-On License v1.0**.
+
+You are free to use, share, and build add-ons for this project.  
+If you rebrand or redistribute it, you must provide attribution to the original project and original author.
+
+You may not redistribute modified versions of the original core code files.  
+Public modifications must be added as separate add-on files or extensions.
+
+This is a **source-available license**, not an OSI open-source license.
+
 ## 🚀 Running the App
 
 ### GitHub Pages
