@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Match Deck</title>
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111827;
+      --panel-2:#1f2937;
+      --card:#182334;
+      --text:#f8fafc;
+      --muted:#94a3b8;
+      --accent:#22c55e;
+      --accent-2:#38bdf8;
+      --danger:#ef4444;
+      --warn:#f59e0b;
+      --border:rgba(255,255,255,0.08);
+      --shadow:0 12px 30px rgba(0,0,0,0.28);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      padding:0;
+      background:linear-gradient(180deg,#0b1220 0%, #0f172a 100%);
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
+      min-height:100%;
+    }
+
+    body{
+      padding:16px;
+      padding-bottom:32px;
+    }
+
+    .app{
+      width:100%;
+      max-width:920px;
+      margin:0 auto;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, rgba(34,197,94,.18), rgba(56,189,248,.16));
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-bottom:16px;
+    }
+
+    .hero h1{
+      margin:0 0 8px 0;
+      font-size:30px;
+      line-height:1.1;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.45;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+
+    @media (min-width: 860px){
+      .grid{
+        grid-template-columns:1.08fr .92fr;
+      }
+    }
+
+    .panel{
+      background:rgba(17,24,39,.9);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .panel h2{
+      margin:0 0 12px 0;
+      font-size:20px;
+    }
+
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:-4px;
+      margin-bottom:14px;
+      line-height:1.4;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    @media (min-width: 640px){
+      .row.two{
+        grid-template-columns:1fr 1fr;
+      }
+      .row.three{
+        grid-template-columns:1fr 1fr 1fr;
+      }
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin:0 0 6px 0;
+    }
+
+    input, select{
+      width:100%;
+      border:1px solid var(--border);
+      background:#0b1322;
+      color:var(--text);
+      border-radius:14px;
+      padding:12px 13px;
+      font-size:16px;
+      outline:none;
+    }
+
+    input::placeholder{
+      color:#7c8aa0;
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    button{
+      appearance:none;
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      color:white;
+      background:var(--panel-2);
+      box-shadow:var(--shadow);
+    }
+
+    button.primary{ background:linear-gradient(135deg, #16a34a, #22c55e); }
+    button.secondary{ background:linear-gradient(135deg, #0369a1, #38bdf8); }
+    button.warn{ background:linear-gradient(135deg, #b45309, #f59e0b); }
+    button.danger{ background:linear-gradient(135deg, #b91c1c, #ef4444); }
+    button.ghost{
+      background:transparent;
+      border:1px solid var(--border);
+      box-shadow:none;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:13px;
+      color:var(--muted);
+      margin:6px 8px 0 0;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .player-top,
+    .bet-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .player-name,
+    .bet-title{
+      font-weight:700;
+      font-size:16px;
+    }
+
+    .score{
+      color:#86efac;
+      font-weight:700;
+      font-size:15px;
+    }
+
+    .meta{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:8px;
+      line-height:1.4;
+    }
+
+    .bet-status{
+      margin-top:10px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .status-pending{ color:#fcd34d; }
+    .status-won{ color:#86efac; }
+    .status-lost{ color:#fca5a5; }
+
+    .empty{
+      color:var(--muted);
+      font-size:14px;
+      padding:8px 2px;
+    }
+
+    .tiny{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .footer-space{
+      height:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="hero">
+      <h1>⚽ Match Deck</h1>
+      <p>
+        A friendly live soccer party game using your physical deck of cards.
+        Add players, log card plays, and resolve bets while watching the match.
+      </p>
+      <div>
+        <span class="pill">📱 Phone friendly</span>
+        <span class="pill">🃏 Physical cards</span>
+        <span class="pill">⚽ Live TV companion</span>
+        <span class="pill">💾 Saves on device</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <h2>Game Setup</h2>
+        <div class="sub">Set the match, add players, and begin a friendly score-based game.</div>
+
+        <div class="row two">
+          <div>
+            <label for="teamA">Home / Team A</label>
+            <input id="teamA" placeholder="e.g. Hoffenheim" />
+          </div>
+          <div>
+            <label for="teamB">Away / Team B</label>
+            <input id="teamB" placeholder="e.g. Bayern Munich" />
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label for="matchLabel">Match Label</label>
+            <input id="matchLabel" placeholder="e.g. Bundesliga Night Match" />
+          </div>
+          <div>
+            <label for="startingChips">Starting Score</label>
+            <input id="startingChips" type="number" value="20" min="0" step="1" />
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="secondary" id="saveMatchBtn">Save Match Info</button>
+          <button class="ghost" id="resetAllBtn">Reset Entire Game</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:16px 0;">
+
+        <h2>Add Player</h2>
+        <div class="row two">
+          <div>
+            <label for="playerName">Player Name</label>
+            <input id="playerName" placeholder="Enter player name" />
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button class="primary" id="addPlayerBtn" style="width:100%;">Add Player</button>
+          </div>
+        </div>
+
+        <div class="list" id="playersList"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Play a Card</h2>
+        <div class="sub">
+          Use your real deck in hand, then log the play here. Card value determines the time window.
+        </div>
+
+        <div class="row two">
+          <div>
+            <label for="betPlayer">Player</label>
+            <select id="betPlayer"></select>
+          </div>
+          <div>
+            <label for="betTeam">Team</label>
+            <select id="betTeam"></select>
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label for="betSuit">Suit</label>
+            <select id="betSuit">
+              <option value="Hearts">Hearts — Goal Event</option>
+              <option value="Spades">Spades — Defensive Event</option>
+              <option value="Diamonds">Diamonds — Momentum Event</option>
+              <option value="Clubs">Clubs — Chaos Event</option>
+            </select>
+          </div>
+          <div>
+            <label for="betValue">Card Value</label>
+            <select id="betValue">
+              <option value="A">A</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="J">J</option>
+              <option value="Q">Q</option>
+              <option value="K">K</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="betPrediction">Prediction</label>
+            <select id="betPrediction"></select>
+          </div>
+        </div>
+
+        <div class="tiny" id="betInfoText">
+          Time window and point values will update based on the selected card.
+        </div>
+
+        <div class="btn-row">
+          <button class="primary" id="createBetBtn">Lock Bet</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:16px 0;">
+
+        <h2>Active Bets</h2>
+        <div class="list" id="betsList"></div>
+      </div>
+    </div>
+
+    <div class="footer-space"></div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "matchDeck_v1";
+
+    const state = {
+      match: {
+        teamA: "",
+        teamB: "",
+        label: "",
+        startingChips: 20
+      },
+      players: [],
+      bets: []
+    };
+
+    const el = {
+      teamA: document.getElementById("teamA"),
+      teamB: document.getElementById("teamB"),
+      matchLabel: document.getElementById("matchLabel"),
+      startingChips: document.getElementById("startingChips"),
+      saveMatchBtn: document.getElementById("saveMatchBtn"),
+      resetAllBtn: document.getElementById("resetAllBtn"),
+      playerName: document.getElementById("playerName"),
+      addPlayerBtn: document.getElementById("addPlayerBtn"),
+      playersList: document.getElementById("playersList"),
+      betPlayer: document.getElementById("betPlayer"),
+      betTeam: document.getElementById("betTeam"),
+      betSuit: document.getElementById("betSuit"),
+      betValue: document.getElementById("betValue"),
+      betPrediction: document.getElementById("betPrediction"),
+      betInfoText: document.getElementById("betInfoText"),
+      createBetBtn: document.getElementById("createBetBtn"),
+      betsList: document.getElementById("betsList")
+    };
+
+    const PREDICTIONS = {
+      Hearts: [
+        "Goal scored",
+        "No goal scored"
+      ],
+      Spades: [
+        "Save happens",
+        "No shot on target",
+        "Defensive stop / tackle"
+      ],
+      Diamonds: [
+        "Corner kick",
+        "Dangerous attack",
+        "Possession momentum for team"
+      ],
+      Clubs: [
+        "Foul called",
+        "Yellow card",
+        "Substitution",
+        "VAR check"
+      ]
+    };
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          state.match = parsed.match || state.match;
+          state.players = Array.isArray(parsed.players) ? parsed.players : [];
+          state.bets = Array.isArray(parsed.bets) ? parsed.bets : [];
+        }
+      } catch (err) {
+        console.warn("Could not load saved game:", err);
+      }
+    }
+
+    function uid() {
+      return Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+
+    function getMinutesForCard(value) {
+      if (value === "A") return 1;
+      if (["2", "3", "4", "5"].includes(value)) return 3;
+      if (["6", "7", "8", "9", "10"].includes(value)) return 5;
+      return 10;
+    }
+
+    function getRewardForCard(value) {
+      if (value === "A") return 10;
+      if (["2", "3", "4", "5"].includes(value)) return 7;
+      if (["6", "7", "8", "9", "10"].includes(value)) return 5;
+      return 3;
+    }
+
+    function getPenaltyForCard(value) {
+      if (value === "A") return 5;
+      if (["2", "3", "4", "5"].includes(value)) return 4;
+      if (["6", "7", "8", "9", "10"].includes(value)) return 3;
+      return 2;
+    }
+
+    function updatePredictionOptions() {
+      const suit = el.betSuit.value;
+      const items = PREDICTIONS[suit] || [];
+      el.betPrediction.innerHTML = items.map(item => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
+      updateBetInfoText();
+    }
+
+    function updateBetInfoText() {
+      const value = el.betValue.value;
+      const mins = getMinutesForCard(value);
+      const reward = getRewardForCard(value);
+      const penalty = getPenaltyForCard(value);
+      el.betInfoText.textContent = `This card covers the next ${mins} minute(s). Win: +${reward} points. Loss: -${penalty} points.`;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function saveMatch() {
+      state.match.teamA = el.teamA.value.trim();
+      state.match.teamB = el.teamB.value.trim();
+      state.match.label = el.matchLabel.value.trim();
+      state.match.startingChips = Math.max(0, parseInt(el.startingChips.value || "0", 10));
+      saveState();
+      render();
+      alert("Match info saved.");
+    }
+
+    function addPlayer() {
+      const name = el.playerName.value.trim();
+      if (!name) {
+        alert("Enter a player name.");
+        return;
+      }
+
+      const starting = Number.isFinite(state.match.startingChips) ? state.match.startingChips : 20;
+
+      state.players.push({
+        id: uid(),
+        name,
+        score: starting
+      });
+
+      el.playerName.value = "";
+      saveState();
+      render();
+    }
+
+    function removePlayer(playerId) {
+      const hasActiveBets = state.bets.some(b => b.playerId === playerId && b.status === "pending");
+      if (hasActiveBets) {
+        alert("This player still has pending bets.");
+        return;
+      }
+      state.players = state.players.filter(p => p.id !== playerId);
+      saveState();
+      render();
+    }
+
+    function getPlayerName(playerId) {
+      const player = state.players.find(p => p.id === playerId);
+      return player ? player.name : "Unknown Player";
+    }
+
+    function createBet() {
+      if (!state.players.length) {
+        alert("Add at least one player first.");
+        return;
+      }
+
+      const playerId = el.betPlayer.value;
+      const team = el.betTeam.value;
+      const suit = el.betSuit.value;
+      const value = el.betValue.value;
+      const prediction = el.betPrediction.value;
+
+      if (!playerId) {
+        alert("Select a player.");
+        return;
+      }
+
+      if (!team) {
+        alert("Save your teams first.");
+        return;
+      }
+
+      const now = Date.now();
+      const durationMins = getMinutesForCard(value);
+
+      state.bets.unshift({
+        id: uid(),
+        playerId,
+        team,
+        suit,
+        value,
+        prediction,
+        createdAt: now,
+        expiresAt: now + durationMins * 60 * 1000,
+        reward: getRewardForCard(value),
+        penalty: getPenaltyForCard(value),
+        status: "pending"
+      });
+
+      saveState();
+      render();
+    }
+
+    function resolveBet(betId, didWin) {
+      const bet = state.bets.find(b => b.id === betId);
+      if (!bet || bet.status !== "pending") return;
+
+      const player = state.players.find(p => p.id === bet.playerId);
+      if (!player) return;
+
+      if (didWin) {
+        bet.status = "won";
+        player.score += bet.reward;
+      } else {
+        bet.status = "lost";
+        player.score -= bet.penalty;
+      }
+
+      saveState();
+      render();
+    }
+
+    function deleteBet(betId) {
+      state.bets = state.bets.filter(b => b.id !== betId);
+      saveState();
+      render();
+    }
+
+    function resetEntireGame() {
+      const ok = confirm("Reset the entire game? This clears players, bets, and match info.");
+      if (!ok) return;
+
+      state.match = {
+        teamA: "",
+        teamB: "",
+        label: "",
+        startingChips: 20
+      };
+      state.players = [];
+      state.bets = [];
+      saveState();
+      render();
+    }
+
+    function renderPlayers() {
+      if (!state.players.length) {
+        el.playersList.innerHTML = `<div class="empty">No players yet.</div>`;
+        return;
+      }
+
+      el.playersList.innerHTML = state.players.map(player => `
+        <div class="card">
+          <div class="player-top">
+            <div class="player-name">${escapeHtml(player.name)}</div>
+            <div class="score">${player.score} pts</div>
+          </div>
+          <div class="btn-row">
+            <button class="danger" onclick="removePlayer('${player.id}')">Remove</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function formatTimeRemaining(ms) {
+      if (ms <= 0) return "Expired";
+      const totalSeconds = Math.ceil(ms / 1000);
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return `${mins}:${String(secs).padStart(2, "0")} remaining`;
+    }
+
+    function renderBets() {
+      if (!state.bets.length) {
+        el.betsList.innerHTML = `<div class="empty">No bets logged yet.</div>`;
+        return;
+      }
+
+      const now = Date.now();
+
+      el.betsList.innerHTML = state.bets.map(bet => {
+        const timeLeft = bet.status === "pending" ? formatTimeRemaining(bet.expiresAt - now) : "Resolved";
+        const statusClass =
+          bet.status === "won" ? "status-won" :
+          bet.status === "lost" ? "status-lost" :
+          "status-pending";
+
+        return `
+          <div class="card">
+            <div class="bet-top">
+              <div class="bet-title">${escapeHtml(getPlayerName(bet.playerId))}</div>
+              <div>${escapeHtml(bet.value)} of ${escapeHtml(bet.suit)}</div>
+            </div>
+
+            <div class="meta">
+              Team: <strong>${escapeHtml(bet.team)}</strong><br>
+              Prediction: <strong>${escapeHtml(bet.prediction)}</strong><br>
+              Reward: +${bet.reward} | Penalty: -${bet.penalty}<br>
+              ${escapeHtml(timeLeft)}
+            </div>
+
+            <div class="bet-status ${statusClass}">
+              ${bet.status.toUpperCase()}
+            </div>
+
+            <div class="btn-row">
+              ${bet.status === "pending" ? `
+                <button class="primary" onclick="resolveBet('${bet.id}', true)">Win</button>
+                <button class="danger" onclick="resolveBet('${bet.id}', false)">Lose</button>
+              ` : ``}
+              <button class="ghost" onclick="deleteBet('${bet.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderPlayerSelect() {
+      if (!state.players.length) {
+        el.betPlayer.innerHTML = `<option value="">No players</option>`;
+        return;
+      }
+
+      el.betPlayer.innerHTML = state.players.map(player => `
+        <option value="${player.id}">${escapeHtml(player.name)}</option>
+      `).join("");
+    }
+
+    function renderTeamSelect() {
+      const teams = [state.match.teamA, state.match.teamB].filter(Boolean);
+
+      if (!teams.length) {
+        el.betTeam.innerHTML = `<option value="">Save teams first</option>`;
+        return;
+      }
+
+      el.betTeam.innerHTML = teams.map(team => `
+        <option value="${escapeHtml(team)}">${escapeHtml(team)}</option>
+      `).join("");
+    }
+
+    function renderMatchFields() {
+      el.teamA.value = state.match.teamA || "";
+      el.teamB.value = state.match.teamB || "";
+      el.matchLabel.value = state.match.label || "";
+      el.startingChips.value = Number.isFinite(state.match.startingChips) ? state.match.startingChips : 20;
+    }
+
+    function render() {
+      renderMatchFields();
+      renderPlayers();
+      renderPlayerSelect();
+      renderTeamSelect();
+      renderBets();
+      updatePredictionOptions();
+    }
+
+    el.saveMatchBtn.addEventListener("click", saveMatch);
+    el.addPlayerBtn.addEventListener("click", addPlayer);
+    el.resetAllBtn.addEventListener("click", resetEntireGame);
+    el.betSuit.addEventListener("change", updatePredictionOptions);
+    el.betValue.addEventListener("change", updateBetInfoText);
+    el.createBetBtn.addEventListener("click", createBet);
+
+    loadState();
+    render();
+
+    setInterval(() => {
+      renderBets();
+    }, 1000);
+
+    window.removePlayer = removePlayer;
+    window.resolveBet = resolveBet;
+    window.deleteBet = deleteBet;
+  </script>
+</body>
+</html>
