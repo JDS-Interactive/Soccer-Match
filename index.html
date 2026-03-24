@@ -3,30 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Match Deck</title>
+  <title>Soccer Match Deck</title>
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root{
-      --bg:#0f172a;
+      --bg:#0b1220;
+      --bg2:#0f172a;
       --panel:#111827;
-      --panel-2:#1f2937;
-      --card:#182334;
+      --panel2:#162132;
+      --card:#18263a;
       --text:#f8fafc;
-      --muted:#94a3b8;
-      --accent:#22c55e;
-      --accent-2:#38bdf8;
-      --danger:#ef4444;
-      --warn:#f59e0b;
-      --border:rgba(255,255,255,0.08);
-      --shadow:0 12px 30px rgba(0,0,0,0.28);
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.08);
+      --green:#22c55e;
+      --blue:#38bdf8;
+      --gold:#f59e0b;
+      --red:#ef4444;
+      --purple:#a78bfa;
       --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.28);
     }
 
     *{box-sizing:border-box}
     html,body{
       margin:0;
       padding:0;
-      background:linear-gradient(180deg,#0b1220 0%, #0f172a 100%);
+      background:linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
       color:var(--text);
       font-family:Arial, Helvetica, sans-serif;
       min-height:100%;
@@ -34,21 +36,21 @@
 
     body{
       padding:16px;
-      padding-bottom:32px;
+      padding-bottom:50px;
     }
 
     .app{
       width:100%;
-      max-width:920px;
+      max-width:1280px;
       margin:0 auto;
     }
 
     .hero{
-      background:linear-gradient(135deg, rgba(34,197,94,.18), rgba(56,189,248,.16));
-      border:1px solid var(--border);
+      background:linear-gradient(135deg, rgba(34,197,94,.14), rgba(56,189,248,.13), rgba(167,139,250,.12));
+      border:1px solid var(--line);
       border-radius:24px;
-      box-shadow:var(--shadow);
       padding:18px;
+      box-shadow:var(--shadow);
       margin-bottom:16px;
     }
 
@@ -61,41 +63,62 @@
     .hero p{
       margin:0;
       color:var(--muted);
-      font-size:15px;
       line-height:1.45;
+      font-size:15px;
     }
 
-    .grid{
+    .pillbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:#d1d5db;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:12px;
+    }
+
+    .layout{
       display:grid;
       grid-template-columns:1fr;
       gap:16px;
     }
 
-    @media (min-width: 860px){
-      .grid{
-        grid-template-columns:1.08fr .92fr;
+    @media (min-width: 980px){
+      .layout{
+        grid-template-columns:1.05fr .95fr;
       }
     }
 
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
     .panel{
-      background:rgba(17,24,39,.9);
-      border:1px solid var(--border);
+      background:rgba(17,24,39,.92);
+      border:1px solid var(--line);
       border-radius:var(--radius);
-      box-shadow:var(--shadow);
       padding:16px;
+      box-shadow:var(--shadow);
     }
 
     .panel h2{
-      margin:0 0 12px 0;
-      font-size:20px;
+      margin:0 0 10px 0;
+      font-size:21px;
     }
 
     .sub{
       color:var(--muted);
       font-size:13px;
-      margin-top:-4px;
+      line-height:1.45;
       margin-bottom:14px;
-      line-height:1.4;
     }
 
     .row{
@@ -105,42 +128,46 @@
       margin-bottom:10px;
     }
 
-    @media (min-width: 640px){
-      .row.two{
-        grid-template-columns:1fr 1fr;
-      }
-      .row.three{
-        grid-template-columns:1fr 1fr 1fr;
-      }
+    .row.two{
+      grid-template-columns:1fr;
+    }
+
+    .row.three{
+      grid-template-columns:1fr;
+    }
+
+    @media (min-width:700px){
+      .row.two{ grid-template-columns:1fr 1fr; }
+      .row.three{ grid-template-columns:1fr 1fr 1fr; }
     }
 
     label{
       display:block;
       font-size:13px;
       color:var(--muted);
-      margin:0 0 6px 0;
+      margin-bottom:6px;
     }
 
     input, select{
       width:100%;
-      border:1px solid var(--border);
+      border:1px solid var(--line);
+      border-radius:14px;
       background:#0b1322;
       color:var(--text);
-      border-radius:14px;
       padding:12px 13px;
       font-size:16px;
       outline:none;
     }
 
     input::placeholder{
-      color:#7c8aa0;
+      color:#708094;
     }
 
-    .btn-row{
+    .btnrow{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      margin-top:10px;
+      margin-top:8px;
     }
 
     button{
@@ -148,359 +175,506 @@
       border:none;
       border-radius:14px;
       padding:12px 16px;
-      font-size:15px;
+      font-size:14px;
       font-weight:700;
       cursor:pointer;
       color:white;
-      background:var(--panel-2);
+      background:#23314a;
       box-shadow:var(--shadow);
     }
 
-    button.primary{ background:linear-gradient(135deg, #16a34a, #22c55e); }
-    button.secondary{ background:linear-gradient(135deg, #0369a1, #38bdf8); }
-    button.warn{ background:linear-gradient(135deg, #b45309, #f59e0b); }
-    button.danger{ background:linear-gradient(135deg, #b91c1c, #ef4444); }
+    button.primary{ background:linear-gradient(135deg,#16a34a,#22c55e); }
+    button.secondary{ background:linear-gradient(135deg,#0369a1,#38bdf8); }
+    button.gold{ background:linear-gradient(135deg,#b45309,#f59e0b); }
+    button.purple{ background:linear-gradient(135deg,#7c3aed,#a78bfa); }
+    button.danger{ background:linear-gradient(135deg,#b91c1c,#ef4444); }
     button.ghost{
       background:transparent;
-      border:1px solid var(--border);
+      border:1px solid var(--line);
       box-shadow:none;
     }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:8px 12px;
-      font-size:13px;
-      color:var(--muted);
-      margin:6px 8px 0 0;
+    button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
     }
 
-    .list{
-      display:flex;
-      flex-direction:column;
+    .gridcards{
+      display:grid;
+      grid-template-columns:1fr;
       gap:10px;
-      margin-top:10px;
+    }
+
+    @media (min-width: 720px){
+      .gridcards.two{
+        grid-template-columns:1fr 1fr;
+      }
     }
 
     .card{
       background:var(--card);
-      border:1px solid var(--border);
+      border:1px solid var(--line);
       border-radius:16px;
       padding:14px;
     }
 
-    .player-top,
-    .bet-top{
+    .cardtop{
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap:12px;
+      align-items:flex-start;
+      gap:10px;
     }
 
-    .player-name,
-    .bet-title{
-      font-weight:700;
+    .title{
       font-size:16px;
+      font-weight:700;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
     }
 
     .score{
       color:#86efac;
       font-weight:700;
-      font-size:15px;
+      white-space:nowrap;
     }
 
-    .meta{
+    .mini{
+      font-size:12px;
       color:var(--muted);
-      font-size:13px;
-      margin-top:8px;
-      line-height:1.4;
     }
 
-    .bet-status{
+    .tagrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
       margin-top:10px;
-      font-size:13px;
-      font-weight:700;
     }
 
-    .status-pending{ color:#fcd34d; }
-    .status-won{ color:#86efac; }
-    .status-lost{ color:#fca5a5; }
+    .tag{
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      color:#d1d5db;
+    }
+
+    .hand{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .hand-card{
+      background:#0b1322;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:8px 10px;
+      font-size:13px;
+      min-width:52px;
+      text-align:center;
+    }
+
+    .heart{ color:#fca5a5; }
+    .spade{ color:#cbd5e1; }
+    .diamond{ color:#7dd3fc; }
+    .club{ color:#c4b5fd; }
+
+    .hr{
+      height:1px;
+      background:var(--line);
+      margin:16px 0;
+    }
 
     .empty{
       color:var(--muted);
       font-size:14px;
-      padding:8px 2px;
+      padding:6px 2px;
     }
 
-    .tiny{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.45;
+    .leader{
+      display:grid;
+      grid-template-columns:56px 1fr auto;
+      gap:10px;
+      align-items:center;
     }
 
-    .footer-space{
-      height:10px;
+    .rank{
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      font-weight:700;
+    }
+
+    .big{
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .event-buttons{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    @media (min-width:700px){
+      .event-buttons{
+        grid-template-columns:1fr 1fr 1fr;
+      }
+    }
+
+    .info-box{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:rgba(255,255,255,.03);
+      font-size:13px;
+      color:#d1d5db;
+      line-height:1.5;
+    }
+
+    .winner-banner{
+      margin-top:12px;
+      border:1px solid rgba(34,197,94,.35);
+      background:rgba(34,197,94,.12);
+      color:#bbf7d0;
+      border-radius:14px;
+      padding:12px;
+      font-weight:700;
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="hero">
-      <h1>⚽ Match Deck</h1>
+      <h1>⚽ Soccer Match Deck</h1>
       <p>
-        A friendly live soccer party game using your physical deck of cards.
-        Add players, log card plays, and resolve bets while watching the match.
+        A live soccer party card game for your phone. Deal a real deck, let each player lock one card into the round,
+        resolve the real match event together, award points, and capture losing cards into each winner’s pile.
       </p>
-      <div>
-        <span class="pill">📱 Phone friendly</span>
-        <span class="pill">🃏 Physical cards</span>
-        <span class="pill">⚽ Live TV companion</span>
-        <span class="pill">💾 Saves on device</span>
+      <div class="pillbar">
+        <div class="pill">🃏 Full 52-card deck</div>
+        <div class="pill">👥 Multi-player rounds</div>
+        <div class="pill">🏆 Capture piles + scoreboard</div>
+        <div class="pill">⚽ Ends when the real match ends</div>
+        <div class="pill">💾 Saves on your device</div>
       </div>
     </div>
 
-    <div class="grid">
-      <div class="panel">
-        <h2>Game Setup</h2>
-        <div class="sub">Set the match, add players, and begin a friendly score-based game.</div>
+    <div class="layout">
+      <div class="stack">
+        <div class="panel">
+          <h2>1) Match Setup</h2>
+          <div class="sub">
+            Set the teams, add players, then deal the deck evenly. Cards left over stay in the draw pile for halftime bonus draws.
+          </div>
 
-        <div class="row two">
-          <div>
-            <label for="teamA">Home / Team A</label>
-            <input id="teamA" placeholder="e.g. Hoffenheim" />
+          <div class="row two">
+            <div>
+              <label for="teamA">Team A</label>
+              <input id="teamA" placeholder="e.g. Hoffenheim" />
+            </div>
+            <div>
+              <label for="teamB">Team B</label>
+              <input id="teamB" placeholder="e.g. Bayern Munich" />
+            </div>
           </div>
-          <div>
-            <label for="teamB">Away / Team B</label>
-            <input id="teamB" placeholder="e.g. Bayern Munich" />
+
+          <div class="row two">
+            <div>
+              <label for="matchLabel">Match Label</label>
+              <input id="matchLabel" placeholder="e.g. Bundesliga Night Match" />
+            </div>
+            <div>
+              <label for="startPoints">Starting App Points</label>
+              <input id="startPoints" type="number" min="0" step="1" value="20" />
+            </div>
           </div>
+
+          <div class="btnrow">
+            <button class="secondary" id="saveSetupBtn">Save Match Setup</button>
+            <button class="ghost" id="resetGameBtn">Reset Entire Game</button>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>2) Players</h2>
+          <div class="row two">
+            <div>
+              <label for="playerName">Add Player</label>
+              <input id="playerName" placeholder="Player name" />
+            </div>
+            <div>
+              <label>&nbsp;</label>
+              <button class="primary" id="addPlayerBtn" style="width:100%">Add Player</button>
+            </div>
+          </div>
+
+          <div class="btnrow">
+            <button class="gold" id="dealDeckBtn">Deal Full Deck Evenly</button>
+            <button class="purple" id="halftimeDrawBtn">Halftime Bonus Draw (1 each)</button>
+          </div>
+
+          <div class="mini" style="margin-top:10px;" id="deckStatusText"></div>
+
+          <div class="gridcards two" id="playersList" style="margin-top:12px;"></div>
         </div>
 
-        <div class="row two">
-          <div>
-            <label for="matchLabel">Match Label</label>
-            <input id="matchLabel" placeholder="e.g. Bundesliga Night Match" />
+        <div class="panel">
+          <h2>3) Current Round</h2>
+          <div class="sub">
+            Each player may lock exactly one card into the round. When the real event happens on TV, resolve the whole round at once.
           </div>
-          <div>
-            <label for="startingChips">Starting Score</label>
-            <input id="startingChips" type="number" value="20" min="0" step="1" />
+
+          <div id="roundStatusBox" class="info-box"></div>
+
+          <div class="hr"></div>
+
+          <div class="row two">
+            <div>
+              <label for="betPlayer">Player</label>
+              <select id="betPlayer"></select>
+            </div>
+            <div>
+              <label for="betCard">Card From Hand</label>
+              <select id="betCard"></select>
+            </div>
           </div>
+
+          <div class="row three">
+            <div>
+              <label for="betPrediction">Prediction</label>
+              <select id="betPrediction"></select>
+            </div>
+            <div>
+              <label for="betTeam">Team Target</label>
+              <select id="betTeam"></select>
+            </div>
+            <div>
+              <label for="betWindow">Time Window</label>
+              <input id="betWindow" disabled />
+            </div>
+          </div>
+
+          <div class="info-box" id="betInfoBox"></div>
+
+          <div class="btnrow">
+            <button class="primary" id="lockBetBtn">Lock Bet Into Round</button>
+            <button class="ghost" id="startNewRoundBtn">Start New Round</button>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>Locked Bets</h2>
+          <div id="lockedBetsList"></div>
         </div>
-
-        <div class="btn-row">
-          <button class="secondary" id="saveMatchBtn">Save Match Info</button>
-          <button class="ghost" id="resetAllBtn">Reset Entire Game</button>
-        </div>
-
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:16px 0;">
-
-        <h2>Add Player</h2>
-        <div class="row two">
-          <div>
-            <label for="playerName">Player Name</label>
-            <input id="playerName" placeholder="Enter player name" />
-          </div>
-          <div>
-            <label>&nbsp;</label>
-            <button class="primary" id="addPlayerBtn" style="width:100%;">Add Player</button>
-          </div>
-        </div>
-
-        <div class="list" id="playersList"></div>
       </div>
 
-      <div class="panel">
-        <h2>Play a Card</h2>
-        <div class="sub">
-          Use your real deck in hand, then log the play here. Card value determines the time window.
-        </div>
-
-        <div class="row two">
-          <div>
-            <label for="betPlayer">Player</label>
-            <select id="betPlayer"></select>
+      <div class="stack">
+        <div class="panel">
+          <h2>4) Resolve Round</h2>
+          <div class="sub">
+            Choose the actual event that happened in the real match. All locked bets resolve together. Winners take losing cards into their capture piles.
           </div>
-          <div>
-            <label for="betTeam">Team</label>
-            <select id="betTeam"></select>
+
+          <div class="row two">
+            <div>
+              <label for="actualEvent">Actual Event</label>
+              <select id="actualEvent"></select>
+            </div>
+            <div>
+              <label for="actualTeam">Team Involved</label>
+              <select id="actualTeam"></select>
+            </div>
+          </div>
+
+          <div class="event-buttons">
+            <button class="secondary quick-event" data-event="goal_scored">Goal</button>
+            <button class="secondary quick-event" data-event="save">Save</button>
+            <button class="secondary quick-event" data-event="corner">Corner</button>
+            <button class="secondary quick-event" data-event="foul">Foul</button>
+            <button class="secondary quick-event" data-event="yellow_card">Yellow</button>
+            <button class="secondary quick-event" data-event="substitution">Substitution</button>
+            <button class="secondary quick-event" data-event="var_check">VAR</button>
+            <button class="secondary quick-event" data-event="dangerous_attack">Danger Attack</button>
+            <button class="secondary quick-event" data-event="defensive_stop">Defensive Stop</button>
+          </div>
+
+          <div class="btnrow">
+            <button class="gold" id="resolveRoundBtn">Resolve Round</button>
+            <button class="danger" id="resolveExpiredBtn">Window Expired / No Matching Event</button>
+          </div>
+
+          <div id="resolveSummary" style="margin-top:12px;"></div>
+        </div>
+
+        <div class="panel">
+          <h2>5) Live Leaderboard</h2>
+          <div class="sub">
+            Final standing is based on app points, capture bonuses, remaining hand value, and special royal suit instant win.
+          </div>
+          <div id="leaderboard"></div>
+          <div id="instantWinBanner"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Suit Rules</h2>
+          <div class="info-box">
+            <strong>♥ Hearts</strong> = goal pressure and finishing.<br>
+            Goal scored or no goal in the window.<br><br>
+
+            <strong>♠ Spades</strong> = defense and prevention.<br>
+            Save, defensive stop, or no shot on target.<br><br>
+
+            <strong>♦ Diamonds</strong> = momentum and buildup.<br>
+            Corner, dangerous attack, or possession swing.<br><br>
+
+            <strong>♣ Clubs</strong> = chaos and disruption.<br>
+            Foul, yellow card, substitution, or VAR check.
           </div>
         </div>
 
-        <div class="row two">
-          <div>
-            <label for="betSuit">Suit</label>
-            <select id="betSuit">
-              <option value="Hearts">Hearts — Goal Event</option>
-              <option value="Spades">Spades — Defensive Event</option>
-              <option value="Diamonds">Diamonds — Momentum Event</option>
-              <option value="Clubs">Clubs — Chaos Event</option>
-            </select>
+        <div class="panel">
+          <h2>6) End Match</h2>
+          <div class="sub">
+            When the real match ends on TV, tap this to freeze standings and show the winner.
           </div>
-          <div>
-            <label for="betValue">Card Value</label>
-            <select id="betValue">
-              <option value="A">A</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="J">J</option>
-              <option value="Q">Q</option>
-              <option value="K">K</option>
-            </select>
+          <div class="btnrow">
+            <button class="primary" id="endMatchBtn">End Match & Finalize Winner</button>
           </div>
+          <div id="finalResultBox" style="margin-top:12px;"></div>
         </div>
-
-        <div class="row">
-          <div>
-            <label for="betPrediction">Prediction</label>
-            <select id="betPrediction"></select>
-          </div>
-        </div>
-
-        <div class="tiny" id="betInfoText">
-          Time window and point values will update based on the selected card.
-        </div>
-
-        <div class="btn-row">
-          <button class="primary" id="createBetBtn">Lock Bet</button>
-        </div>
-
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:16px 0;">
-
-        <h2>Active Bets</h2>
-        <div class="list" id="betsList"></div>
       </div>
     </div>
-
-    <div class="footer-space"></div>
   </div>
 
   <script>
-    const STORAGE_KEY = "matchDeck_v1";
+    const STORAGE_KEY = "soccer_match_deck_v2";
 
-    const state = {
+    const SUIT_SYMBOL = {
+      Hearts: "♥",
+      Spades: "♠",
+      Diamonds: "♦",
+      Clubs: "♣"
+    };
+
+    const SUIT_CLASS = {
+      Hearts: "heart",
+      Spades: "spade",
+      Diamonds: "diamond",
+      Clubs: "club"
+    };
+
+    const PREDICTIONS = [
+      { id:"goal_scored", label:"Goal scored", suit:"Hearts", teamMode:"specific" },
+      { id:"no_goal", label:"No goal in window", suit:"Hearts", teamMode:"either" },
+
+      { id:"save", label:"Save happens", suit:"Spades", teamMode:"specific" },
+      { id:"defensive_stop", label:"Defensive stop / tackle", suit:"Spades", teamMode:"specific" },
+      { id:"no_shot_on_target", label:"No shot on target in window", suit:"Spades", teamMode:"either" },
+
+      { id:"corner", label:"Corner kick", suit:"Diamonds", teamMode:"specific" },
+      { id:"dangerous_attack", label:"Dangerous attack", suit:"Diamonds", teamMode:"specific" },
+      { id:"possession_swing", label:"Possession swing", suit:"Diamonds", teamMode:"specific" },
+
+      { id:"foul", label:"Foul called", suit:"Clubs", teamMode:"specific" },
+      { id:"yellow_card", label:"Yellow card", suit:"Clubs", teamMode:"specific" },
+      { id:"substitution", label:"Substitution", suit:"Clubs", teamMode:"specific" },
+      { id:"var_check", label:"VAR check", suit:"Clubs", teamMode:"either" }
+    ];
+
+    const DEFAULT_STATE = () => ({
       match: {
         teamA: "",
         teamB: "",
         label: "",
-        startingChips: 20
+        startPoints: 20,
+        ended: false
       },
       players: [],
-      bets: []
-    };
+      drawPile: [],
+      discardPile: [],
+      round: {
+        id: null,
+        number: 1,
+        status: "open",
+        bets: [],
+        resolvedSummary: null
+      }
+    });
+
+    let state = DEFAULT_STATE();
 
     const el = {
       teamA: document.getElementById("teamA"),
       teamB: document.getElementById("teamB"),
       matchLabel: document.getElementById("matchLabel"),
-      startingChips: document.getElementById("startingChips"),
-      saveMatchBtn: document.getElementById("saveMatchBtn"),
-      resetAllBtn: document.getElementById("resetAllBtn"),
+      startPoints: document.getElementById("startPoints"),
+      saveSetupBtn: document.getElementById("saveSetupBtn"),
+      resetGameBtn: document.getElementById("resetGameBtn"),
       playerName: document.getElementById("playerName"),
       addPlayerBtn: document.getElementById("addPlayerBtn"),
+      dealDeckBtn: document.getElementById("dealDeckBtn"),
+      halftimeDrawBtn: document.getElementById("halftimeDrawBtn"),
       playersList: document.getElementById("playersList"),
+      deckStatusText: document.getElementById("deckStatusText"),
+
       betPlayer: document.getElementById("betPlayer"),
-      betTeam: document.getElementById("betTeam"),
-      betSuit: document.getElementById("betSuit"),
-      betValue: document.getElementById("betValue"),
+      betCard: document.getElementById("betCard"),
       betPrediction: document.getElementById("betPrediction"),
-      betInfoText: document.getElementById("betInfoText"),
-      createBetBtn: document.getElementById("createBetBtn"),
-      betsList: document.getElementById("betsList")
+      betTeam: document.getElementById("betTeam"),
+      betWindow: document.getElementById("betWindow"),
+      betInfoBox: document.getElementById("betInfoBox"),
+      lockBetBtn: document.getElementById("lockBetBtn"),
+      startNewRoundBtn: document.getElementById("startNewRoundBtn"),
+      roundStatusBox: document.getElementById("roundStatusBox"),
+      lockedBetsList: document.getElementById("lockedBetsList"),
+
+      actualEvent: document.getElementById("actualEvent"),
+      actualTeam: document.getElementById("actualTeam"),
+      resolveRoundBtn: document.getElementById("resolveRoundBtn"),
+      resolveExpiredBtn: document.getElementById("resolveExpiredBtn"),
+      resolveSummary: document.getElementById("resolveSummary"),
+
+      leaderboard: document.getElementById("leaderboard"),
+      instantWinBanner: document.getElementById("instantWinBanner"),
+      endMatchBtn: document.getElementById("endMatchBtn"),
+      finalResultBox: document.getElementById("finalResultBox")
     };
 
-    const PREDICTIONS = {
-      Hearts: [
-        "Goal scored",
-        "No goal scored"
-      ],
-      Spades: [
-        "Save happens",
-        "No shot on target",
-        "Defensive stop / tackle"
-      ],
-      Diamonds: [
-        "Corner kick",
-        "Dangerous attack",
-        "Possession momentum for team"
-      ],
-      Clubs: [
-        "Foul called",
-        "Yellow card",
-        "Substitution",
-        "VAR check"
-      ]
-    };
-
-    function saveState() {
+    function saveState(){
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    function loadState() {
+    function loadState(){
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       try {
         const parsed = JSON.parse(raw);
         if (parsed && typeof parsed === "object") {
-          state.match = parsed.match || state.match;
-          state.players = Array.isArray(parsed.players) ? parsed.players : [];
-          state.bets = Array.isArray(parsed.bets) ? parsed.bets : [];
+          state = parsed;
         }
       } catch (err) {
-        console.warn("Could not load saved game:", err);
+        console.warn("Failed to load state:", err);
       }
     }
 
-    function uid() {
+    function uid(){
       return Math.random().toString(36).slice(2) + Date.now().toString(36);
     }
 
-    function getMinutesForCard(value) {
-      if (value === "A") return 1;
-      if (["2", "3", "4", "5"].includes(value)) return 3;
-      if (["6", "7", "8", "9", "10"].includes(value)) return 5;
-      return 10;
-    }
-
-    function getRewardForCard(value) {
-      if (value === "A") return 10;
-      if (["2", "3", "4", "5"].includes(value)) return 7;
-      if (["6", "7", "8", "9", "10"].includes(value)) return 5;
-      return 3;
-    }
-
-    function getPenaltyForCard(value) {
-      if (value === "A") return 5;
-      if (["2", "3", "4", "5"].includes(value)) return 4;
-      if (["6", "7", "8", "9", "10"].includes(value)) return 3;
-      return 2;
-    }
-
-    function updatePredictionOptions() {
-      const suit = el.betSuit.value;
-      const items = PREDICTIONS[suit] || [];
-      el.betPrediction.innerHTML = items.map(item => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
-      updateBetInfoText();
-    }
-
-    function updateBetInfoText() {
-      const value = el.betValue.value;
-      const mins = getMinutesForCard(value);
-      const reward = getRewardForCard(value);
-      const penalty = getPenaltyForCard(value);
-      el.betInfoText.textContent = `This card covers the next ${mins} minute(s). Win: +${reward} points. Loss: -${penalty} points.`;
-    }
-
-    function escapeHtml(str) {
+    function esc(str){
       return String(str)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -509,40 +683,127 @@
         .replaceAll("'", "&#039;");
     }
 
-    function saveMatch() {
+    function cardLabel(card){
+      return `${card.value}${SUIT_SYMBOL[card.suit]}`;
+    }
+
+    function cardSortValue(card){
+      const order = { A:14, K:13, Q:12, J:11 };
+      return order[card.value] || Number(card.value);
+    }
+
+    function cardGameModifier(card){
+      if (card.value === "A") return 6;
+      if (["2","3","4","5"].includes(card.value)) return 4;
+      if (["6","7","8","9","10"].includes(card.value)) return 3;
+      return 2;
+    }
+
+    function cardWindow(card){
+      if (card.value === "A") return "1 minute";
+      if (["2","3","4","5"].includes(card.value)) return "3 minutes";
+      if (["6","7","8","9","10"].includes(card.value)) return "5 minutes";
+      return "10 minutes";
+    }
+
+    function handValueTotal(cards){
+      return cards.reduce((sum, c) => sum + cardSortValue(c), 0);
+    }
+
+    function captureBonus(cards){
+      return cards.reduce((sum, c) => sum + (cardSortValue(c) >= 11 ? 2 : 1), 0);
+    }
+
+    function createDeck(){
+      const suits = ["Hearts","Spades","Diamonds","Clubs"];
+      const values = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+      const deck = [];
+      for (const suit of suits){
+        for (const value of values){
+          deck.push({ id: uid(), suit, value });
+        }
+      }
+      return shuffle(deck);
+    }
+
+    function shuffle(arr){
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function getTeams(){
+      return [state.match.teamA, state.match.teamB].filter(Boolean);
+    }
+
+    function getPlayerById(playerId){
+      return state.players.find(p => p.id === playerId);
+    }
+
+    function getPredictionById(id){
+      return PREDICTIONS.find(p => p.id === id);
+    }
+
+    function currentRoundHasPlayerBet(playerId){
+      return state.round.bets.some(b => b.playerId === playerId);
+    }
+
+    function royalSuitFound(cards){
+      const needed = ["10","J","Q","K","A"];
+      for (const suit of ["Hearts","Spades","Diamonds","Clubs"]){
+        const suitValues = cards.filter(c => c.suit === suit).map(c => c.value);
+        if (needed.every(v => suitValues.includes(v))) return suit;
+      }
+      return null;
+    }
+
+    function computePlayerStanding(player){
+      const handValue = handValueTotal(player.hand || []);
+      const capBonus = captureBonus(player.capturePile || []);
+      const royalSuit = royalSuitFound(player.capturePile || []);
+      const total = (player.points || 0) + handValue + capBonus;
+      return {
+        handValue,
+        capBonus,
+        royalSuit,
+        total
+      };
+    }
+
+    function saveSetup(){
       state.match.teamA = el.teamA.value.trim();
       state.match.teamB = el.teamB.value.trim();
       state.match.label = el.matchLabel.value.trim();
-      state.match.startingChips = Math.max(0, parseInt(el.startingChips.value || "0", 10));
+      state.match.startPoints = Math.max(0, parseInt(el.startPoints.value || "0", 10));
       saveState();
       render();
-      alert("Match info saved.");
+      alert("Match setup saved.");
     }
 
-    function addPlayer() {
+    function addPlayer(){
       const name = el.playerName.value.trim();
       if (!name) {
         alert("Enter a player name.");
         return;
       }
-
-      const starting = Number.isFinite(state.match.startingChips) ? state.match.startingChips : 20;
-
       state.players.push({
         id: uid(),
         name,
-        score: starting
+        points: Number.isFinite(state.match.startPoints) ? state.match.startPoints : 20,
+        hand: [],
+        capturePile: []
       });
-
       el.playerName.value = "";
       saveState();
       render();
     }
 
-    function removePlayer(playerId) {
-      const hasActiveBets = state.bets.some(b => b.playerId === playerId && b.status === "pending");
-      if (hasActiveBets) {
-        alert("This player still has pending bets.");
+    function removePlayer(playerId){
+      if (state.round.bets.some(b => b.playerId === playerId)) {
+        alert("That player already has a locked bet in the current round.");
         return;
       }
       state.players = state.players.filter(p => p.id !== playerId);
@@ -550,224 +811,648 @@
       render();
     }
 
-    function getPlayerName(playerId) {
-      const player = state.players.find(p => p.id === playerId);
-      return player ? player.name : "Unknown Player";
+    function dealDeckEvenly(){
+      if (state.players.length < 2){
+        alert("Add at least 2 players first.");
+        return;
+      }
+      if (state.round.bets.length){
+        alert("Resolve the current round before dealing a new deck.");
+        return;
+      }
+
+      const deck = createDeck();
+      state.drawPile = [];
+      state.discardPile = [];
+
+      state.players.forEach(player => {
+        player.hand = [];
+        player.capturePile = [];
+        player.points = Number.isFinite(state.match.startPoints) ? state.match.startPoints : 20;
+      });
+
+      let idx = 0;
+      while (deck.length >= state.players.length){
+        for (const player of state.players){
+          player.hand.push(deck.shift());
+        }
+        idx++;
+      }
+
+      state.drawPile = deck;
+      state.round = {
+        id: uid(),
+        number: 1,
+        status: "open",
+        bets: [],
+        resolvedSummary: null
+      };
+
+      saveState();
+      render();
     }
 
-    function createBet() {
-      if (!state.players.length) {
-        alert("Add at least one player first.");
+    function halftimeBonusDraw(){
+      if (!state.players.length){
+        alert("No players added yet.");
+        return;
+      }
+      if (!state.drawPile.length){
+        alert("No cards left in the draw pile.");
+        return;
+      }
+
+      for (const player of state.players){
+        if (!state.drawPile.length) break;
+        player.hand.push(state.drawPile.shift());
+      }
+
+      saveState();
+      render();
+    }
+
+    function startNewRound(){
+      if (state.round.bets.length && !state.round.resolvedSummary){
+        const ok = confirm("This will clear the current unresolved round. Continue?");
+        if (!ok) return;
+
+        for (const bet of state.round.bets){
+          const player = getPlayerById(bet.playerId);
+          if (player) {
+            player.hand.push(bet.card);
+            player.hand = sortCards(player.hand);
+          }
+        }
+      }
+
+      state.round = {
+        id: uid(),
+        number: (state.round.number || 1) + 1,
+        status: "open",
+        bets: [],
+        resolvedSummary: null
+      };
+      saveState();
+      render();
+    }
+
+    function sortCards(cards){
+      const suitOrder = { Hearts:1, Spades:2, Diamonds:3, Clubs:4 };
+      return [...cards].sort((a,b) => {
+        if (suitOrder[a.suit] !== suitOrder[b.suit]) return suitOrder[a.suit] - suitOrder[b.suit];
+        return cardSortValue(b) - cardSortValue(a);
+      });
+    }
+
+    function populatePredictionSelect(){
+      el.betPrediction.innerHTML = PREDICTIONS.map(p => `
+        <option value="${p.id}">${esc(SUIT_SYMBOL[p.suit] + " " + p.label)}</option>
+      `).join("");
+
+      el.actualEvent.innerHTML = PREDICTIONS.filter(p => !["no_goal","no_shot_on_target"].includes(p.id)).map(p => `
+        <option value="${p.id}">${esc(p.label)}</option>
+      `).join("");
+    }
+
+    function populateTeamSelects(){
+      const teams = getTeams();
+      const teamOptions = teams.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+      const eitherOptions = `<option value="Either">Either / N/A</option>`;
+      el.actualTeam.innerHTML = eitherOptions + teamOptions;
+      refreshBetTeamSelect();
+    }
+
+    function refreshBetTeamSelect(){
+      const pred = getPredictionById(el.betPrediction.value);
+      const teams = getTeams();
+      if (!pred){
+        el.betTeam.innerHTML = `<option value="Either">Either / N/A</option>`;
+        return;
+      }
+
+      if (pred.teamMode === "either"){
+        el.betTeam.innerHTML = `<option value="Either">Either / N/A</option>`;
+      } else {
+        el.betTeam.innerHTML = teams.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+      }
+    }
+
+    function populatePlayerSelect(){
+      if (!state.players.length){
+        el.betPlayer.innerHTML = `<option value="">No players</option>`;
+        el.betCard.innerHTML = `<option value="">No cards</option>`;
+        return;
+      }
+
+      el.betPlayer.innerHTML = state.players.map(p => `
+        <option value="${p.id}">${esc(p.name)}</option>
+      `).join("");
+
+      refreshBetCardSelect();
+    }
+
+    function refreshBetCardSelect(){
+      const playerId = el.betPlayer.value;
+      const player = getPlayerById(playerId);
+
+      if (!player || !player.hand.length){
+        el.betCard.innerHTML = `<option value="">No cards available</option>`;
+        updateBetInfoBox();
+        return;
+      }
+
+      el.betCard.innerHTML = sortCards(player.hand).map(card => `
+        <option value="${card.id}">${esc(cardLabel(card))} — ${esc(card.suit)}</option>
+      `).join("");
+
+      el.betWindow.value = cardWindow(player.hand.find(c => c.id === el.betCard.value) || player.hand[0]);
+      updateBetInfoBox();
+    }
+
+    function updateBetInfoBox(){
+      const player = getPlayerById(el.betPlayer.value);
+      const pred = getPredictionById(el.betPrediction.value);
+      const card = player?.hand?.find(c => c.id === el.betCard.value) || player?.hand?.[0];
+
+      if (!player || !pred || !card){
+        el.betInfoBox.innerHTML = `Choose a player, one card from that player’s hand, and a prediction.`;
+        el.betWindow.value = "";
+        return;
+      }
+
+      el.betWindow.value = cardWindow(card);
+
+      const base = 2;
+      const mod = cardGameModifier(card);
+      const win = base + mod;
+      const lose = base + mod;
+
+      el.betInfoBox.innerHTML = `
+        <strong>${esc(player.name)}</strong> is playing <strong class="${SUIT_CLASS[card.suit]}">${esc(cardLabel(card))}</strong>.<br>
+        Suit category: <strong>${esc(card.suit)}</strong>.<br>
+        Time window: <strong>${esc(cardWindow(card))}</strong>.<br>
+        Point result: <strong>+${win}</strong> on success, <strong>-${lose}</strong> on failure.<br>
+        If this bet wins, the player can capture losing cards from the round pot.
+      `;
+    }
+
+    function lockBet(){
+      if (state.match.ended){
+        alert("The match has already been ended.");
         return;
       }
 
       const playerId = el.betPlayer.value;
-      const team = el.betTeam.value;
-      const suit = el.betSuit.value;
-      const value = el.betValue.value;
-      const prediction = el.betPrediction.value;
-
-      if (!playerId) {
-        alert("Select a player.");
+      const player = getPlayerById(playerId);
+      if (!player){
+        alert("Choose a player.");
         return;
       }
 
-      if (!team) {
-        alert("Save your teams first.");
+      if (currentRoundHasPlayerBet(playerId)){
+        alert("That player already locked a bet this round.");
         return;
       }
 
-      const now = Date.now();
-      const durationMins = getMinutesForCard(value);
+      const cardId = el.betCard.value;
+      const cardIndex = player.hand.findIndex(c => c.id === cardId);
+      if (cardIndex < 0){
+        alert("Choose a valid card.");
+        return;
+      }
 
-      state.bets.unshift({
+      const card = player.hand[cardIndex];
+      const predictionId = el.betPrediction.value;
+      const prediction = getPredictionById(predictionId);
+      if (!prediction){
+        alert("Choose a prediction.");
+        return;
+      }
+
+      if (prediction.suit !== card.suit){
+        alert(`That prediction is for ${prediction.suit}. Choose a ${prediction.suit} card.`);
+        return;
+      }
+
+      const teamTarget = prediction.teamMode === "either" ? "Either" : el.betTeam.value;
+      if (prediction.teamMode === "specific" && !teamTarget){
+        alert("Choose a team target.");
+        return;
+      }
+
+      player.hand.splice(cardIndex, 1);
+
+      state.round.bets.push({
         id: uid(),
         playerId,
-        team,
-        suit,
-        value,
-        prediction,
-        createdAt: now,
-        expiresAt: now + durationMins * 60 * 1000,
-        reward: getRewardForCard(value),
-        penalty: getPenaltyForCard(value),
-        status: "pending"
+        playerName: player.name,
+        card,
+        predictionId,
+        predictionLabel: prediction.label,
+        teamTarget,
+        basePoints: 2,
+        modifier: cardGameModifier(card),
+        status: "locked"
       });
 
       saveState();
       render();
     }
 
-    function resolveBet(betId, didWin) {
-      const bet = state.bets.find(b => b.id === betId);
-      if (!bet || bet.status !== "pending") return;
+    function quickSetEvent(eventId){
+      el.actualEvent.value = eventId;
+    }
 
-      const player = state.players.find(p => p.id === bet.playerId);
-      if (!player) return;
-
-      if (didWin) {
-        bet.status = "won";
-        player.score += bet.reward;
-      } else {
-        bet.status = "lost";
-        player.score -= bet.penalty;
+    function evaluateBetAgainstEvent(bet, actualEvent, actualTeam, expiredOnly){
+      if (expiredOnly){
+        return bet.predictionId === "no_goal" || bet.predictionId === "no_shot_on_target";
       }
 
-      saveState();
-      render();
+      if (bet.predictionId === "no_goal" || bet.predictionId === "no_shot_on_target"){
+        return false;
+      }
+
+      if (bet.predictionId !== actualEvent){
+        return false;
+      }
+
+      const pred = getPredictionById(bet.predictionId);
+      if (!pred) return false;
+      if (pred.teamMode === "either") return true;
+
+      return bet.teamTarget === actualTeam;
     }
 
-    function deleteBet(betId) {
-      state.bets = state.bets.filter(b => b.id !== betId);
-      saveState();
-      render();
-    }
+    function resolveRound(expiredOnly = false){
+      if (!state.round.bets.length){
+        alert("No locked bets in the current round.");
+        return;
+      }
 
-    function resetEntireGame() {
-      const ok = confirm("Reset the entire game? This clears players, bets, and match info.");
-      if (!ok) return;
+      const actualEvent = expiredOnly ? "expired" : el.actualEvent.value;
+      const actualTeam = expiredOnly ? "Either" : el.actualTeam.value || "Either";
 
-      state.match = {
-        teamA: "",
-        teamB: "",
-        label: "",
-        startingChips: 20
+      if (!expiredOnly && !actualEvent){
+        alert("Choose the actual event.");
+        return;
+      }
+
+      const winners = [];
+      const losers = [];
+      const summaryLines = [];
+
+      for (const bet of state.round.bets){
+        const player = getPlayerById(bet.playerId);
+        if (!player) continue;
+
+        const win = evaluateBetAgainstEvent(bet, actualEvent, actualTeam, expiredOnly);
+        const delta = bet.basePoints + bet.modifier;
+        if (win){
+          player.points += delta;
+          winners.push({ bet, player, strength: cardSortValue(bet.card) });
+          summaryLines.push(`${player.name} won with ${cardLabel(bet.card)} (${bet.predictionLabel}) for +${delta}`);
+        } else {
+          player.points -= delta;
+          losers.push({ bet, player });
+          summaryLines.push(`${player.name} lost with ${cardLabel(bet.card)} (${bet.predictionLabel}) for -${delta}`);
+        }
+      }
+
+      const losingCards = losers.map(x => x.bet.card);
+      const winningCards = winners.map(x => x.bet.card);
+
+      if (winners.length > 0 && losers.length > 0){
+        const orderedWinners = [...winners].sort((a,b) => b.strength - a.strength || a.player.name.localeCompare(b.player.name));
+        let idx = 0;
+        for (const card of losingCards){
+          const winner = orderedWinners[idx % orderedWinners.length];
+          winner.player.capturePile.push(card);
+          idx++;
+        }
+        for (const card of winningCards){
+          state.discardPile.push(card);
+        }
+      } else {
+        for (const bet of state.round.bets){
+          state.discardPile.push(bet.card);
+        }
+      }
+
+      state.round.resolvedSummary = {
+        actualEvent,
+        actualTeam,
+        expiredOnly,
+        winners: winners.map(w => w.player.name),
+        losers: losers.map(l => l.player.name),
+        lines: summaryLines
       };
-      state.players = [];
-      state.bets = [];
+
       saveState();
       render();
+
+      const instantWinner = findInstantWinner();
+      if (instantWinner){
+        state.match.ended = true;
+        saveState();
+        render();
+      }
     }
 
-    function renderPlayers() {
-      if (!state.players.length) {
+    function renderPlayers(){
+      if (!state.players.length){
         el.playersList.innerHTML = `<div class="empty">No players yet.</div>`;
         return;
       }
 
-      el.playersList.innerHTML = state.players.map(player => `
-        <div class="card">
-          <div class="player-top">
-            <div class="player-name">${escapeHtml(player.name)}</div>
-            <div class="score">${player.score} pts</div>
-          </div>
-          <div class="btn-row">
-            <button class="danger" onclick="removePlayer('${player.id}')">Remove</button>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function formatTimeRemaining(ms) {
-      if (ms <= 0) return "Expired";
-      const totalSeconds = Math.ceil(ms / 1000);
-      const mins = Math.floor(totalSeconds / 60);
-      const secs = totalSeconds % 60;
-      return `${mins}:${String(secs).padStart(2, "0")} remaining`;
-    }
-
-    function renderBets() {
-      if (!state.bets.length) {
-        el.betsList.innerHTML = `<div class="empty">No bets logged yet.</div>`;
-        return;
-      }
-
-      const now = Date.now();
-
-      el.betsList.innerHTML = state.bets.map(bet => {
-        const timeLeft = bet.status === "pending" ? formatTimeRemaining(bet.expiresAt - now) : "Resolved";
-        const statusClass =
-          bet.status === "won" ? "status-won" :
-          bet.status === "lost" ? "status-lost" :
-          "status-pending";
+      el.playersList.innerHTML = state.players.map(player => {
+        const standing = computePlayerStanding(player);
+        const hand = sortCards(player.hand || []);
+        const cap = sortCards(player.capturePile || []);
 
         return `
           <div class="card">
-            <div class="bet-top">
-              <div class="bet-title">${escapeHtml(getPlayerName(bet.playerId))}</div>
-              <div>${escapeHtml(bet.value)} of ${escapeHtml(bet.suit)}</div>
+            <div class="cardtop">
+              <div>
+                <div class="title">${esc(player.name)}</div>
+                <div class="muted">
+                  App points: <strong>${player.points}</strong><br>
+                  Hand: <strong>${hand.length}</strong> cards<br>
+                  Captured: <strong>${cap.length}</strong> cards
+                </div>
+              </div>
+              <div class="score">${standing.total} total</div>
             </div>
 
-            <div class="meta">
-              Team: <strong>${escapeHtml(bet.team)}</strong><br>
-              Prediction: <strong>${escapeHtml(bet.prediction)}</strong><br>
-              Reward: +${bet.reward} | Penalty: -${bet.penalty}<br>
-              ${escapeHtml(timeLeft)}
+            <div class="tagrow">
+              <div class="tag">Hand value: ${standing.handValue}</div>
+              <div class="tag">Capture bonus: +${standing.capBonus}</div>
+              ${standing.royalSuit ? `<div class="tag">Royal ${SUIT_SYMBOL[standing.royalSuit]} ready</div>` : ``}
             </div>
 
-            <div class="bet-status ${statusClass}">
-              ${bet.status.toUpperCase()}
+            <div class="mini" style="margin-top:10px;">Hand</div>
+            <div class="hand">
+              ${hand.length ? hand.map(card => `<div class="hand-card ${SUIT_CLASS[card.suit]}">${esc(cardLabel(card))}</div>`).join("") : `<div class="empty">No cards in hand.</div>`}
             </div>
 
-            <div class="btn-row">
-              ${bet.status === "pending" ? `
-                <button class="primary" onclick="resolveBet('${bet.id}', true)">Win</button>
-                <button class="danger" onclick="resolveBet('${bet.id}', false)">Lose</button>
-              ` : ``}
-              <button class="ghost" onclick="deleteBet('${bet.id}')">Delete</button>
+            <div class="mini" style="margin-top:10px;">Capture pile</div>
+            <div class="hand">
+              ${cap.length ? cap.map(card => `<div class="hand-card ${SUIT_CLASS[card.suit]}">${esc(cardLabel(card))}</div>`).join("") : `<div class="empty">No captured cards yet.</div>`}
+            </div>
+
+            <div class="btnrow">
+              <button class="danger" onclick="removePlayer('${player.id}')">Remove</button>
             </div>
           </div>
         `;
       }).join("");
     }
 
-    function renderPlayerSelect() {
-      if (!state.players.length) {
-        el.betPlayer.innerHTML = `<option value="">No players</option>`;
+    function renderDeckStatus(){
+      const totalHand = state.players.reduce((sum,p) => sum + (p.hand?.length || 0), 0);
+      const totalCap = state.players.reduce((sum,p) => sum + (p.capturePile?.length || 0), 0);
+      const discard = state.discardPile?.length || 0;
+      const draw = state.drawPile?.length || 0;
+      el.deckStatusText.textContent =
+        `Deck status — In hands: ${totalHand} | Captured: ${totalCap} | Draw pile: ${draw} | Discard: ${discard}`;
+    }
+
+    function renderRoundStatus(){
+      const locked = state.round.bets.length;
+      const playerCount = state.players.length;
+      const unresolved = !state.round.resolvedSummary;
+
+      el.roundStatusBox.innerHTML = `
+        <strong>Round ${state.round.number || 1}</strong><br>
+        Locked bets: <strong>${locked}</strong> / ${playerCount}<br>
+        Status: <strong>${unresolved ? "Open" : "Resolved"}</strong><br>
+        ${locked === playerCount && unresolved ? "All players have locked a card. You can now resolve the round." : "Players may continue locking one card each."}
+      `;
+    }
+
+    function renderLockedBets(){
+      if (!state.round.bets.length){
+        el.lockedBetsList.innerHTML = `<div class="empty">No bets locked yet in this round.</div>`;
         return;
       }
 
-      el.betPlayer.innerHTML = state.players.map(player => `
-        <option value="${player.id}">${escapeHtml(player.name)}</option>
-      `).join("");
+      el.lockedBetsList.innerHTML = `
+        <div class="gridcards">
+          ${state.round.bets.map(bet => `
+            <div class="card">
+              <div class="cardtop">
+                <div class="title">${esc(bet.playerName)}</div>
+                <div class="${SUIT_CLASS[bet.card.suit]}"><strong>${esc(cardLabel(bet.card))}</strong></div>
+              </div>
+              <div class="muted" style="margin-top:8px;">
+                Prediction: <strong>${esc(bet.predictionLabel)}</strong><br>
+                Team target: <strong>${esc(bet.teamTarget)}</strong><br>
+                Result value: <strong>±${bet.basePoints + bet.modifier}</strong>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
     }
 
-    function renderTeamSelect() {
-      const teams = [state.match.teamA, state.match.teamB].filter(Boolean);
-
-      if (!teams.length) {
-        el.betTeam.innerHTML = `<option value="">Save teams first</option>`;
+    function renderResolveSummary(){
+      const s = state.round.resolvedSummary;
+      if (!s){
+        el.resolveSummary.innerHTML = `<div class="empty">No round resolved yet.</div>`;
         return;
       }
 
-      el.betTeam.innerHTML = teams.map(team => `
-        <option value="${escapeHtml(team)}">${escapeHtml(team)}</option>
-      `).join("");
+      const heading = s.expiredOnly
+        ? `Round resolved: window expired / no matching event`
+        : `Round resolved: ${getPredictionById(s.actualEvent)?.label || s.actualEvent} (${s.actualTeam})`;
+
+      el.resolveSummary.innerHTML = `
+        <div class="info-box">
+          <strong>${esc(heading)}</strong><br><br>
+          ${s.lines.map(line => `${esc(line)}<br>`).join("")}
+        </div>
+      `;
     }
 
-    function renderMatchFields() {
+    function findInstantWinner(){
+      for (const player of state.players){
+        const suit = royalSuitFound(player.capturePile || []);
+        if (suit) return { player, suit };
+      }
+      return null;
+    }
+
+    function renderLeaderboard(){
+      if (!state.players.length){
+        el.leaderboard.innerHTML = `<div class="empty">No players yet.</div>`;
+        el.instantWinBanner.innerHTML = "";
+        return;
+      }
+
+      const standings = state.players.map(player => {
+        const s = computePlayerStanding(player);
+        return {
+          player,
+          ...s
+        };
+      }).sort((a,b) => b.total - a.total || b.player.points - a.player.points || b.handValue - a.handValue);
+
+      el.leaderboard.innerHTML = standings.map((entry, idx) => `
+        <div class="card" style="margin-bottom:10px;">
+          <div class="leader">
+            <div class="rank">${idx + 1}</div>
+            <div>
+              <div class="big">${esc(entry.player.name)}</div>
+              <div class="muted">
+                App points: ${entry.player.points}<br>
+                Hand value: ${entry.handValue}<br>
+                Capture bonus: +${entry.capBonus}<br>
+                Captured cards: ${(entry.player.capturePile || []).length}
+              </div>
+            </div>
+            <div class="score">${entry.total}</div>
+          </div>
+        </div>
+      `).join("");
+
+      const instant = findInstantWinner();
+      if (instant){
+        el.instantWinBanner.innerHTML = `
+          <div class="winner-banner">
+            Instant win: ${esc(instant.player.name)} completed a Royal ${SUIT_SYMBOL[instant.suit]} capture pile set (10, J, Q, K, A).
+          </div>
+        `;
+      } else {
+        el.instantWinBanner.innerHTML = "";
+      }
+    }
+
+    function endMatch(){
+      state.match.ended = true;
+      saveState();
+      render();
+
+      const standings = state.players.map(player => {
+        const s = computePlayerStanding(player);
+        return { player, ...s };
+      }).sort((a,b) => b.total - a.total || b.player.points - a.player.points || b.handValue - a.handValue);
+
+      if (!standings.length){
+        el.finalResultBox.innerHTML = `<div class="empty">No players in game.</div>`;
+        return;
+      }
+
+      const instant = findInstantWinner();
+      const winnerText = instant
+        ? `${instant.player.name} wins instantly with a Royal ${SUIT_SYMBOL[instant.suit]} capture pile set.`
+        : `${standings[0].player.name} wins on total score with ${standings[0].total} points.`;
+
+      el.finalResultBox.innerHTML = `
+        <div class="winner-banner">
+          ${esc(winnerText)}
+        </div>
+      `;
+    }
+
+    function renderFinalResultIfNeeded(){
+      if (!state.match.ended){
+        el.finalResultBox.innerHTML = "";
+        return;
+      }
+
+      const instant = findInstantWinner();
+      const standings = state.players.map(player => {
+        const s = computePlayerStanding(player);
+        return { player, ...s };
+      }).sort((a,b) => b.total - a.total || b.player.points - a.player.points || b.handValue - a.handValue);
+
+      if (!standings.length){
+        el.finalResultBox.innerHTML = `<div class="empty">No players in game.</div>`;
+        return;
+      }
+
+      const winnerText = instant
+        ? `${instant.player.name} wins instantly with a Royal ${SUIT_SYMBOL[instant.suit]} capture pile set.`
+        : `${standings[0].player.name} wins on total score with ${standings[0].total} points.`;
+
+      el.finalResultBox.innerHTML = `<div class="winner-banner">${esc(winnerText)}</div>`;
+    }
+
+    function render(){
       el.teamA.value = state.match.teamA || "";
       el.teamB.value = state.match.teamB || "";
       el.matchLabel.value = state.match.label || "";
-      el.startingChips.value = Number.isFinite(state.match.startingChips) ? state.match.startingChips : 20;
-    }
+      el.startPoints.value = Number.isFinite(state.match.startPoints) ? state.match.startPoints : 20;
 
-    function render() {
-      renderMatchFields();
+      populatePredictionSelect();
+      populateTeamSelects();
+      populatePlayerSelect();
+      updateBetInfoBox();
+
       renderPlayers();
-      renderPlayerSelect();
-      renderTeamSelect();
-      renderBets();
-      updatePredictionOptions();
+      renderDeckStatus();
+      renderRoundStatus();
+      renderLockedBets();
+      renderResolveSummary();
+      renderLeaderboard();
+      renderFinalResultIfNeeded();
+
+      el.lockBetBtn.disabled = state.match.ended;
+      el.resolveRoundBtn.disabled = state.match.ended || !state.round.bets.length || !!state.round.resolvedSummary;
+      el.resolveExpiredBtn.disabled = state.match.ended || !state.round.bets.length || !!state.round.resolvedSummary;
+      el.startNewRoundBtn.disabled = state.match.ended;
+      el.halftimeDrawBtn.disabled = state.match.ended || !state.drawPile.length;
+      el.dealDeckBtn.disabled = state.match.ended;
+      el.endMatchBtn.disabled = state.match.ended;
+
+      if (findInstantWinner()){
+        el.lockBetBtn.disabled = true;
+        el.resolveRoundBtn.disabled = true;
+        el.resolveExpiredBtn.disabled = true;
+        el.startNewRoundBtn.disabled = true;
+        el.halftimeDrawBtn.disabled = true;
+        el.dealDeckBtn.disabled = true;
+        el.endMatchBtn.disabled = true;
+      }
     }
 
-    el.saveMatchBtn.addEventListener("click", saveMatch);
+    el.saveSetupBtn.addEventListener("click", saveSetup);
+    el.resetGameBtn.addEventListener("click", () => {
+      const ok = confirm("Reset the entire game, players, round, and deck?");
+      if (!ok) return;
+      state = DEFAULT_STATE();
+      saveState();
+      render();
+    });
     el.addPlayerBtn.addEventListener("click", addPlayer);
-    el.resetAllBtn.addEventListener("click", resetEntireGame);
-    el.betSuit.addEventListener("change", updatePredictionOptions);
-    el.betValue.addEventListener("change", updateBetInfoText);
-    el.createBetBtn.addEventListener("click", createBet);
+    el.dealDeckBtn.addEventListener("click", dealDeckEvenly);
+    el.halftimeDrawBtn.addEventListener("click", halftimeBonusDraw);
+
+    el.betPlayer.addEventListener("change", () => {
+      refreshBetCardSelect();
+      updateBetInfoBox();
+    });
+
+    el.betCard.addEventListener("change", updateBetInfoBox);
+    el.betPrediction.addEventListener("change", () => {
+      refreshBetTeamSelect();
+      updateBetInfoBox();
+    });
+
+    el.lockBetBtn.addEventListener("click", lockBet);
+    el.startNewRoundBtn.addEventListener("click", startNewRound);
+
+    el.resolveRoundBtn.addEventListener("click", () => resolveRound(false));
+    el.resolveExpiredBtn.addEventListener("click", () => resolveRound(true));
+    el.endMatchBtn.addEventListener("click", endMatch);
+
+    document.querySelectorAll(".quick-event").forEach(btn => {
+      btn.addEventListener("click", () => quickSetEvent(btn.dataset.event));
+    });
+
+    window.removePlayer = removePlayer;
 
     loadState();
     render();
-
-    setInterval(() => {
-      renderBets();
-    }, 1000);
-
-    window.removePlayer = removePlayer;
-    window.resolveBet = resolveBet;
-    window.deleteBet = deleteBet;
   </script>
 </body>
 </html>
