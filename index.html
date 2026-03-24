@@ -353,6 +353,16 @@
       padding:12px;
       font-weight:700;
     }
+
+    .countdown-live{
+      color:#86efac;
+      font-weight:700;
+    }
+
+    .countdown-expired{
+      color:#fca5a5;
+      font-weight:700;
+    }
   </style>
 </head>
 <body>
@@ -367,6 +377,7 @@
         <div class="pill">🃏 Full 52-card deck</div>
         <div class="pill">👥 Multi-player rounds</div>
         <div class="pill">🏆 Capture piles + scoreboard</div>
+        <div class="pill">⏱️ Live countdown timers</div>
         <div class="pill">⚽ Ends when the real match ends</div>
         <div class="pill">💾 Saves on your device</div>
       </div>
@@ -560,7 +571,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "soccer_match_deck_v2";
+    const STORAGE_KEY = "soccer_match_deck_v3";
 
     const SUIT_SYMBOL = {
       Hearts: "♥",
@@ -706,6 +717,21 @@
       return "10 minutes";
     }
 
+    function cardWindowMinutes(card){
+      if (card.value === "A") return 1;
+      if (["2","3","4","5"].includes(card.value)) return 3;
+      if (["6","7","8","9","10"].includes(card.value)) return 5;
+      return 10;
+    }
+
+    function formatCountdown(ms){
+      if (ms <= 0) return "Expired";
+      const totalSeconds = Math.ceil(ms / 1000);
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return `${mins}:${String(secs).padStart(2, "0")}`;
+    }
+
     function handValueTotal(cards){
       return cards.reduce((sum, c) => sum + cardSortValue(c), 0);
     }
@@ -831,12 +857,10 @@
         player.points = Number.isFinite(state.match.startPoints) ? state.match.startPoints : 20;
       });
 
-      let idx = 0;
       while (deck.length >= state.players.length){
         for (const player of state.players){
           player.hand.push(deck.shift());
         }
-        idx++;
       }
 
       state.drawPile = deck;
@@ -1042,6 +1066,9 @@
 
       player.hand.splice(cardIndex, 1);
 
+      const now = Date.now();
+      const windowMinutes = cardWindowMinutes(card);
+
       state.round.bets.push({
         id: uid(),
         playerId,
@@ -1052,7 +1079,10 @@
         teamTarget,
         basePoints: 2,
         modifier: cardGameModifier(card),
-        status: "locked"
+        status: "locked",
+        lockedAt: now,
+        expiresAt: now + (windowMinutes * 60 * 1000),
+        windowMinutes
       });
 
       saveState();
@@ -1221,10 +1251,24 @@
       const playerCount = state.players.length;
       const unresolved = !state.round.resolvedSummary;
 
+      let soonestExpiryText = "No active timers";
+      if (locked && unresolved){
+        const now = Date.now();
+        const activeTimes = state.round.bets
+          .filter(b => typeof b.expiresAt === "number")
+          .map(b => b.expiresAt - now);
+
+        if (activeTimes.length){
+          const soonest = Math.min(...activeTimes);
+          soonestExpiryText = formatCountdown(soonest);
+        }
+      }
+
       el.roundStatusBox.innerHTML = `
         <strong>Round ${state.round.number || 1}</strong><br>
         Locked bets: <strong>${locked}</strong> / ${playerCount}<br>
         Status: <strong>${unresolved ? "Open" : "Resolved"}</strong><br>
+        Soonest timer: <strong>${esc(soonestExpiryText)}</strong><br>
         ${locked === playerCount && unresolved ? "All players have locked a card. You can now resolve the round." : "Players may continue locking one card each."}
       `;
     }
@@ -1235,21 +1279,32 @@
         return;
       }
 
+      const now = Date.now();
+
       el.lockedBetsList.innerHTML = `
         <div class="gridcards">
-          ${state.round.bets.map(bet => `
-            <div class="card">
-              <div class="cardtop">
-                <div class="title">${esc(bet.playerName)}</div>
-                <div class="${SUIT_CLASS[bet.card.suit]}"><strong>${esc(cardLabel(bet.card))}</strong></div>
+          ${state.round.bets.map(bet => {
+            const remaining = typeof bet.expiresAt === "number" ? (bet.expiresAt - now) : 0;
+            const expired = remaining <= 0;
+            const countdownText = formatCountdown(remaining);
+
+            return `
+              <div class="card">
+                <div class="cardtop">
+                  <div class="title">${esc(bet.playerName)}</div>
+                  <div class="${SUIT_CLASS[bet.card.suit]}"><strong>${esc(cardLabel(bet.card))}</strong></div>
+                </div>
+                <div class="muted" style="margin-top:8px;">
+                  Prediction: <strong>${esc(bet.predictionLabel)}</strong><br>
+                  Team target: <strong>${esc(bet.teamTarget)}</strong><br>
+                  Result value: <strong>±${bet.basePoints + bet.modifier}</strong><br>
+                  Window: <strong>${bet.windowMinutes || "?"} min</strong><br>
+                  Countdown:
+                  <strong class="${expired ? "countdown-expired" : "countdown-live"}">${esc(countdownText)}</strong>
+                </div>
               </div>
-              <div class="muted" style="margin-top:8px;">
-                Prediction: <strong>${esc(bet.predictionLabel)}</strong><br>
-                Team target: <strong>${esc(bet.teamTarget)}</strong><br>
-                Result value: <strong>±${bet.basePoints + bet.modifier}</strong>
-              </div>
-            </div>
-          `).join("")}
+            `;
+          }).join("")}
         </div>
       `;
     }
@@ -1453,6 +1508,11 @@
 
     loadState();
     render();
+
+    setInterval(() => {
+      renderLockedBets();
+      renderRoundStatus();
+    }, 1000);
   </script>
 </body>
 </html>
